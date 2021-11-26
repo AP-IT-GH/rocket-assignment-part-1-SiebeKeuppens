@@ -4,64 +4,50 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
-    public float boost = 150;
-    public float rotation = 10;
-    bool up = false;
-    bool left = false;
-    bool right = false;
+    public float thrust;
+    float rotation;
+    private bool boosting = false;
+    Rigidbody rocket;
+    private Vector3 force;
 
-    Rigidbody rigidbody;
-    // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rocket = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        inputs();
-        boosting();
-        rotations();
+        Inputs();
+        ApplyThrust();
     }
 
-    void inputs(){
-        if(Input.GetKeyDown(KeyCode.Space))
-        { 
-           up = true; 
+    void Inputs()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            boosting = true;
         }
-
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            left = true;
+            transform.localRotation = Quaternion.Euler(0,0,10);
         }
-
-        if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
-            right = true;
+           transform.localRotation = Quaternion.Euler(0,0,-10);
         }
+        else {transform.localRotation = Quaternion.Euler(0,0,0);}
     }
 
-    void boosting(){
-        if (up)
-        {
-            rigidbody.AddRelativeForce(Vector3.up * boost, ForceMode.Acceleration);    
-            up = false;
-        }
-    }
+    void ApplyThrust()
+    {
+        thrust = 20;
+        rotation = Input.GetAxis("Horizontal") * 5;
+        force = new Vector3(rotation, thrust);
 
-    void rotations(){
-        if(left)
+        if (boosting)
         {
-            transform.Rotate(0,0,rotation);
-            left = false;    
+            rocket.AddForce(force, ForceMode.Acceleration);
+            boosting = false;
         }
-        
-        if(right)
-        {
-            transform.Rotate(0, 0, -rotation);
-            right = false;
-        }
-        
     }
 }
