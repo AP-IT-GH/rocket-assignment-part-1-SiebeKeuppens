@@ -8,6 +8,8 @@ TagManager:
   - Checkpoint
   - Death
   - Start
+  - End2
+  - Points
   layers:
   - Default
   - TransparentFX

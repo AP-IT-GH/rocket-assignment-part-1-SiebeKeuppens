@@ -10,6 +10,9 @@ public class Rocket : MonoBehaviour
     Rigidbody rocket;
     private Vector3 force;
 
+    public KeyCode leftbutton = KeyCode.LeftArrow;
+    public KeyCode rightbutton = KeyCode.RightArrow;
+
     void Start()
     {
         rocket = GetComponent<Rigidbody>();
@@ -27,11 +30,11 @@ public class Rocket : MonoBehaviour
         {
             boosting = true;
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(leftbutton))
         {
             transform.localRotation = Quaternion.Euler(0,0,10);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(rightbutton))
         {
            transform.localRotation = Quaternion.Euler(0,0,-10);
         }
